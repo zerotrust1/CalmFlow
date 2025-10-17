@@ -1,0 +1,190 @@
+/* NavBar / SceneSelector styles
+   Place this file at src/styles/navbar.css and import it from your global styles or _app.tsx
+*/
+
+/* Top navigation bar */
+.top-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  background: rgba(255,255,255,0.98);
+  box-shadow: 0 6px 18px rgba(11,18,32,0.06);
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+}
+
+/* left control group */
+.top-nav .left-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* brand now sits left next to buttons */
+.top-nav .brand-left {
+  display: inline-block;
+  font-weight: 800;
+  font-size: 18px;
+  color: #0f172a;
+}
+
+/* centered brand */
+.top-nav .nav-brand {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: 800;
+  font-size: 18px;
+  color: #0f172a;
+  pointer-events: none;
+}
+
+/* brand hover glow (subtle) */
+.top-nav .nav-brand:hover {
+  color: var(--brand-hover-color, #0369a1);
+  text-shadow: 0 0 12px rgba(3, 169, 244, 0.18);
+  transform: translateY(-1px);
+}
+
+/* Dropdown enter/leave animations (no Tailwind dependency) */
+.menu-enter,
+.menu-leave {
+  transform-origin: top right;
+}
+
+/* entering: define transition and final state */
+.menu-enter {
+  transition: opacity 220ms cubic-bezier(0.2, 0.9, 0.2, 1), transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.menu-enter-from {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.985);
+}
+.menu-enter-to {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* leaving: quicker fade/slide */
+.menu-leave {
+  transition: opacity 150ms ease-in, transform 150ms ease-in;
+}
+.menu-leave-from {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+.menu-leave-to {
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+}
+
+/* safe defaults for selector visuals */
+.scene-selector {
+  --selector-bg: rgba(255, 255, 255, 0.92);
+  --selector-bg-hover: rgba(255, 255, 255, 0.98);
+  --selector-border: rgba(255, 255, 255, 0.72);
+  --selector-radius: 12px;
+  --option-radius: 8px;
+}
+
+/* button uses the same visual style */
+.scene-selector .selector-button {
+  background: var(--selector-bg);
+  border-radius: var(--selector-radius);
+  padding: 0.5rem 0.9rem;
+  box-shadow: 0 8px 26px rgba(8, 15, 30, 0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+}
+
+/* dropdown-options (new) - rounded translucent white square that matches the button */
+.scene-selector .dropdown-options {
+  position: absolute;
+  top: calc(100% + 8px); /* just below the button */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 11rem; /* matches previous w-44 (~176px). adjust if needed */
+  z-index: 60;
+  /* keep visual styling */
+  background: var(--selector-bg);
+  border: 1px solid var(--selector-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: var(--selector-radius);
+  padding: 0.25rem;
+  box-shadow: 0 12px 36px rgba(8, 15, 30, 0.08);
+  overflow: hidden;
+}
+
+/* small-screen tweak so dropdown doesn't overflow screen */
+@media (max-width: 420px) {
+  .scene-selector .dropdown-options {
+    left: 8px;
+    right: 8px;
+    transform: none;
+    width: auto;
+  }
+}
+
+/* individual option visuals inside the rounded square */
+.scene-selector .listbox-option {
+  border-radius: var(--option-radius);
+  padding: 0.45rem 0.75rem;
+  margin: 0.12rem 0;
+  transition: background 150ms ease, color 150ms ease, text-shadow 180ms ease;
+}
+
+/* hover / active item */
+.scene-selector .listbox-option.active,
+.scene-selector .listbox-option:hover,
+.scene-selector .listbox-option[aria-selected="true"] {
+  background: rgba(3, 169, 244, 0.06);
+}
+
+/* keep first/last item spacing neat */
+.scene-selector .listbox-option:first-child { margin-top: 0; }
+.scene-selector .listbox-option:last-child { margin-bottom: 0; }
+
+/* animation classes (already present earlier; ensure these exist) */
+.menu-enter { transition: opacity 220ms cubic-bezier(0.2,0.9,0.2,1), transform 220ms cubic-bezier(0.2,0.9,0.2,1); transform-origin: top right; }
+.menu-enter-from { opacity: 0; transform: translateY(-8px) scale(0.985); }
+.menu-enter-to   { opacity: 1; transform: translateY(0) scale(1); }
+.menu-leave { transition: opacity 150ms ease-in, transform 150ms ease-in; transform-origin: top right; }
+.menu-leave-from { opacity: 1; transform: translateY(0) scale(1); }
+.menu-leave-to   { opacity: 0; transform: translateY(-6px) scale(0.98); }
+
+/* make sure SVG/check sizes are consistent */
+.scene-selector svg { width: 1rem; height: 1rem; transform: none; }
+
+/* space below fixed nav so page content doesn't hide */
+.page-content {
+  padding-top: 84px; /* nav height (64) + spacing */
+}
+
+/* small-screen adjustments */
+@media (max-width: 640px) {
+  .top-nav { height: 56px; }
+  .top-nav .nav-brand { font-size: 1rem; }
+  .page-content { padding-top: 72px; }
+  .scene-selector .selector-button { padding: 0.4rem 0.75rem; }
+}
+
+/* ensure page content is not hidden under the fixed navbar */
+body > .page-with-navbar-padding {
+  padding-top: 64px; /* match navbar height */
+}
+
+/* small responsive tweaks */
+@media (max-width: 640px) {
+  .top-nav {
+    height: 56px;
+    padding: 0 0.75rem;
+  }
+  body > .page-with-navbar-padding {
+    padding-top: 56px;
+  }
+}

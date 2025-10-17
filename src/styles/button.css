@@ -1,0 +1,344 @@
+/* Button UI moved out of globals.css */
+:root {
+  /* reuse existing vars from globals.css */
+  --btn-padding: 0.7rem 1.1rem;
+  --btn-min-width: 120px;
+  --btn-bottom-offset: 12px; /* distance from circle bottom (used by .bottom-center) */
+  --btn-margin: 0;           /* outer spacing if needed */
+}
+
+/* Buttons: baseline */
+button,
+[type="button"],
+[type="submit"],
+[type="reset"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  background: transparent;
+}
+
+/* disabled */
+button:disabled,
+[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Button variants */
+.btn {
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--accent) 0%, var(--accent-600) 100%);
+  color: white;
+  box-shadow: 0 6px 18px rgba(79,70,229,0.12);
+}
+
+.btn-ghost {
+  background: rgba(99,102,241,0.06);
+  color: var(--accent-600);
+}
+
+/* Make bottom/fixed controls look like buttons when combined */
+.bottom-center.btn,
+.fixed-bottom-center.btn {
+  padding: 0.7rem 1.1rem;
+  border-radius: 14px;
+  min-width: 120px;
+  text-align: center;
+}
+
+/* keep focus-visible accessible */
+.btn:focus-visible {
+  box-shadow: 0 0 0 6px var(--ring);
+  outline: none;
+}
+
+/* Position helpers for button placement */
+.bottom-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 70px; /* increased to lift the button higher (was 24px) */
+  z-index: 20;
+}
+
+.fixed-bottom-center {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 24px;
+  z-index: 60;
+}
+
+/* small responsive tweak */
+@media (max-width: 420px) {
+  .bottom-center,
+  .fixed-bottom-center {
+    bottom: 34px; /* adjusted for small screens */
+  }
+}
+
+/* Rounded-square control buttons used by BreathingCircle */
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  height: 44px;
+  padding: 0 14px;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2,6,23,0.08);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+.control-btn[aria-pressed="true"] {
+  background: linear-gradient(180deg, rgba(99,102,241,0.12), rgba(99,102,241,0.06));
+  border-color: rgba(99,102,241,0.28);
+  color: #071133;
+}
+
+/* Global relaxed font for nav/dropdowns */
+.top-nav,
+.selector-button,
+.listbox-options,
+.listbox-option,
+.settings-panel {
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Selector buttons (navbar dropdown triggers) — softer, elevated */
+.selector-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  height: 40px;
+  background: rgba(255,255,255,0.94);
+  border: 1px solid rgba(10,18,28,0.06);
+  border-radius: 12px;
+  color: #08303a;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 8px 22px rgba(11,18,32,0.06);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+}
+.selector-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(11,18,32,0.08);
+}
+.selector-button:focus {
+  outline: none;
+  box-shadow: 0 8px 30px rgba(3,102,153,0.12);
+}
+
+/* Settings button: circular on navbar right — softer */
+.settings-button {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 9999px; /* circle */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(250,250,252,0.88));
+  border: 1px solid rgba(10,18,28,0.06);
+  color: #08303a;
+  box-shadow: 0 8px 20px rgba(11,18,32,0.06);
+}
+
+/* Subtle glassmorphism for settings panel */
+.listbox-options.settings-panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(245,250,255,0.54));
+  backdrop-filter: blur(8px) saturate(120%);
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.42);
+  box-shadow: 0 18px 40px rgba(6,20,44,0.10);
+  border-radius: 14px;
+  padding: 12px;
+  color: #07323a;
+}
+
+/* Individual options in panel */
+.listbox-option {
+  background: transparent;
+  border: none;
+  padding: 10px 12px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #07323a;
+  font-weight: 600;
+  border-radius: 10px;
+}
+.listbox-option:hover {
+  background: rgba(6,18,28,0.04);
+}
+
+/* Settings panel inner content */
+.settings-panel label {
+  display: block;
+  font-size: 14px;
+  color: #0b3a3f;
+  margin-bottom: 6px;
+}
+
+/* slider / range — pure white track, centered circular thumb */
+.range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 12px;              /* track height */
+  margin: 0;
+  padding: 0;
+  background: #ffffff;       /* pure white track */
+  border-radius: 999px;
+  outline: none;
+  transition: box-shadow 120ms ease, background 120ms ease;
+}
+
+/* WebKit track */
+.range-input::-webkit-slider-runnable-track {
+  height: 12px;
+  border-radius: 999px;
+  background: #ffffff;       /* pure white track */
+  box-shadow: inset 0 0 0 1px rgba(2,6,23,0.03);
+}
+
+/* WebKit thumb (centered using negative margin) */
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;       /* thumb also white */
+  border: 2px solid rgba(10,18,28,0.12);
+  box-shadow: 0 6px 14px rgba(6,20,44,0.08);
+  margin-top: -4px;          /* (thumbHeight - trackHeight) / -2 => centers the thumb */
+  cursor: pointer;
+}
+
+/* Firefox track + thumb */
+.range-input::-moz-range-track {
+  height: 12px;
+  border-radius: 999px;
+  background: #ffffff;
+}
+.range-input::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid rgba(10,18,28,0.12);
+  box-shadow: 0 6px 14px rgba(6,20,44,0.08);
+  cursor: pointer;
+}
+
+/* Focus state */
+.range-input:focus {
+  box-shadow: 0 6px 20px rgba(3,102,153,0.06);
+}
+
+/* ensure small-screen spacing in settings panel remains comfortable */
+.listbox-options.settings-panel .range-input { margin-top: 4px; }
+
+/* Mobile drawer styles (fixed, non-invasive when closed) */
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 80vw;
+  transform: translateX(-100%);
+  transition: transform 260ms cubic-bezier(.2,.9,.2,1);
+  pointer-events: none;
+  z-index: 100;
+}
+.mobile-drawer.open {
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+/* inner panel sits below the fixed nav (nav height 64) */
+.mobile-drawer-inner {
+  background: rgba(255,255,255,0.98);
+  height: 100%;
+  padding-top: 64px;
+  box-shadow: 0 20px 60px rgba(11,18,32,0.12);
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* overlay to darken rest of screen and close - cover full viewport */
+.mobile-drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.28);
+  z-index: 90;
+}
+
+/* ensure overlay covers screen on small widths (when drawer max-width < viewport) */
+@media (max-width: 480px) {
+  .mobile-drawer { width: 100%; max-width: 100vw; }
+}
+
+/* show hamburger and hide desktop controls on small screens */
+@media (max-width: 768px) {
+  .desktop-controls { display: none !important; }
+  .hamburger-button { display: inline-flex !important; }
+
+  /* hide floating settings button on small screens - use drawer's settings */
+  .settings-button { display: none !important; }
+}
+
+/* If settings dropdown is opened on small screens make it fixed and full-width (defensive) */
+@media (max-width: 480px) {
+  .listbox-options.settings-panel {
+    position: fixed !important;
+    left: 8px !important;
+    right: 8px !important;
+    top: calc(64px + 8px) !important; /* below the top nav */
+    min-width: unset !important;
+    width: auto !important;
+    z-index: 110 !important;
+    margin: 0 !important;
+    box-shadow: 0 20px 48px rgba(6,20,44,0.12) !important;
+  }
+}
