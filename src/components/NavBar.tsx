@@ -34,7 +34,8 @@ export default function NavBar({
     onChange,
   }: {
     label: string;
-    options: { id: string; label: string; value: string }[];
+    // options may include an optional colors palette used by themes
+    options: { id: string; label: string; value: string; colors?: string[] }[];
     current: string | null | undefined;
     onChange: (v: string) => void;
   }) => {
@@ -237,8 +238,8 @@ export default function NavBar({
             style={{ position: "absolute", right: 0, top: "calc(100% + 8px)", zIndex: 80, minWidth: 260, padding: 12 }}
           >
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-              <div style={{ fontWeight: 700 }}>Please support me</div>
-              <div style={{ color: "#274151", fontSize: 14 }}>please support me to keep this website running</div>
+              <div style={{ fontWeight: 700 }}>support me</div>
+              <div style={{ color: "#274151", fontSize: 14 }}>please support me to keep this website running contact:fahrel02x@gmail.com</div>
 
               <div style={{ display: "flex", justifyContent: "flex-end", gap: 8, marginTop: 6 }}>
                 <a
@@ -345,6 +346,26 @@ export default function NavBar({
               </div>
             </div>
 
+            {/* Music block added for mobile */}
+            <div style={{ marginBottom: 8 }}>
+              <strong>Music</strong>
+              <div style={{ marginTop: 6 }}>
+                {MUSIC_OPTIONS.map((o) => (
+                  <button
+                    key={o.id}
+                    className="listbox-option"
+                    onClick={() => {
+                      onMusicChange(o.value === "none" ? null : o.value);
+                      setDrawerOpen(false);
+                    }}
+                    style={{ display: "block", width: "100%" }}
+                  >
+                    {o.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div style={{ marginBottom: 8 }}>
               <strong>Background</strong>
               <div style={{ marginTop: 6 }}>
@@ -361,22 +382,6 @@ export default function NavBar({
                     {o.label}
                   </button>
                 ))}
-              </div>
-            </div>
-
-            <div style={{ marginBottom: 8 }}>
-              <strong>Support</strong>
-              <div style={{ marginTop: 6 }}>
-                <button
-                  className="listbox-option"
-                  onClick={() => {
-                    window.open("https://ko-fi.com/reldev", "_blank", "noopener");
-                    setDrawerOpen(false);
-                  }}
-                  style={{ display: "block", width: "100%" }}
-                >
-                  ☕ Support me — please support me to keep this website running
-                </button>
               </div>
             </div>
 
@@ -431,17 +436,25 @@ export default function NavBar({
 }
 
 const THEME_OPTIONS = [
-  { id: "ocean", label: "Ocean", value: "ocean" },
-  { id: "forest", label: "Forest", value: "forest" },
-  { id: "night", label: "Night", value: "night" },
+  { id: "ocean", label: "Ocean", value: "ocean", colors: ["#E0F7FA", "#8ED1E6", "#36A6C8", "#0B8796", "#042D34"] },
+  { id: "forest", label: "Forest", value: "forest", colors: ["#E8F6EC", "#B8E3C6", "#7EC38A", "#3B8A57", "#153927"] },
+  { id: "night", label: "Night", value: "night", colors: ["#F3F6FA", "#BBC7E6", "#6F7EA8", "#2D3756", "#0B1220"] },
+  // Sunny: warm bright palette
+  { id: "sunny", label: "Sunny", value: "sunny", colors: ["#FFF7D6", "#FFE28A", "#FFC857", "#FF9F1C", "#FF6B00"] },
+  // Sunset: deep orange/pink gradient
+  { id: "sunset", label: "Sunset", value: "sunset", colors: ["#FFF0E6", "#FFD1B8", "#FF9AA2", "#FF6F61", "#C23B5A"] },
 ];
 
 const MUSIC_OPTIONS = [
   { id: "none", label: "None", value: "none" },
   { id: "ocean", label: "Ocean", value: "ocean" },
+  { id: "forest", label: "forest", value: "forest" },
+  { id: "wind", label: "wind", value: "wind" },
 ];
 
 const BACKGROUND_OPTIONS = [
   { id: "none", label: "None", value: "none" },
   { id: "beach", label: "Beach", value: "beach" },
+  { id: "forest", label: "forest", value: "forest" },
+  { id: "grass", label: "grass", value: "grass" },
 ];
