@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 import NavBar from '../components/NavBar';
 
@@ -54,14 +53,15 @@ export default function Home() {
           settings={settings}
           onSettingsChange={setSettings}
         />
-        <motion.h1
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-6xl md:text-8xl font-bold text-center text-gray-800"
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.0 }}
-        >
-          CalmFlow
-        </motion.h1>
+        {/* New homepage content will go here */}
+        <main className="flex flex-col items-center justify-center min-h-screen py-2">
+          <h1 className="text-6xl font-bold text-center text-gray-800">
+            Welcome to CalmFlow
+          </h1>
+          <p className="mt-3 text-2xl text-gray-600">
+            Your personal sanctuary for relaxation and focus.
+          </p>
+        </main>
       </div>
     </>
   );
