@@ -14,9 +14,10 @@ export default function Home() {
           <h1 className="text-6xl font-bold text-gray-800">
             CalmFlow
           </h1>
-          <div className="flex mt-4 space-x-2">
-            <span className="block w-12 h-1 bg-gray-400 rounded-full"></span>
-            <span className="block w-12 h-1 bg-gray-400 rounded-full"></span>
+          {/* Prominent lines for visibility */}
+          <div className="flex mt-6 space-x-4">
+            <span className="block w-24 h-2 bg-gray-700 rounded-full"></span>
+            <span className="block w-24 h-2 bg-gray-700 rounded-full"></span>
           </div>
         </div>
       </div>
