@@ -22,7 +22,7 @@ export default function Pomodoro() {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [selectedMusic, setSelectedMusic] = useState<string | null>(null);
   const [selectedTheme, setSelectedTheme] = useState<string>("city");
-  const [selectedBell, setSelectedBell] = useState<string>("bell");
+  const [selectedBell, setSelectedBell] = useState<string>("bell"); // Default to "bell"
   const [activeTab, setActiveTab] = useState<SettingsTab>("general");
   const workSessionCount = useRef(0);
   const settingsPanelRef = useRef<HTMLDivElement>(null);
@@ -44,7 +44,7 @@ export default function Pomodoro() {
         }
         if (seconds === 0) {
           if (minutes === 0) {
-            if (bellAudioRef.current && selectedBell) {
+            if (bellAudioRef.current && selectedBell !== "") { // Play bell only if a bell is selected
               bellAudioRef.current.play();
             }
             if (sessionType === "work") {
@@ -103,7 +103,7 @@ export default function Pomodoro() {
   }, [selectedMusic]);
 
   useEffect(() => {
-    if (bellAudioRef.current && selectedBell) {
+    if (bellAudioRef.current && selectedBell !== "") { // Only set src if a bell is selected
       bellAudioRef.current.src = `/bell/${selectedBell}.mp3`;
     }
   }, [selectedBell]);
@@ -135,7 +135,7 @@ export default function Pomodoro() {
   };
 
   const handleBellSelect = (bell: string) => {
-    setSelectedBell(bell);
+    setSelectedBell(bell); // Always set a string, "" for None
   };
 
   const handleDurationChange = (
