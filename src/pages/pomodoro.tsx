@@ -135,7 +135,7 @@ export default function Pomodoro() {
   };
 
   const handleBellSelect = (bell: string) => {
-    setSelectedBell(bell === "" ? null : bell);
+    setSelectedBell(bell);
   };
 
   const handleDurationChange = (
@@ -228,7 +228,7 @@ export default function Pomodoro() {
                       <p>Bell Sound</p>
                       <select
                         className="bell-dropdown"
-                        value={selectedBell || ""}
+                        value={selectedBell}
                         onChange={(e) => handleBellSelect(e.target.value)}
                       >
                         <option value="">None</option>
