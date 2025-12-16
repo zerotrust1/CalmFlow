@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 
 type Settings = {
@@ -291,9 +292,11 @@ export default function NavBar({
             ☰
           </button>
 
-          <div className="brand-left" style={{ fontWeight: 800, fontSize: 18, color: "#0f172a", marginRight: 8 }}>
-            CalmFlow
-          </div>
+          <Link href="/" passHref>
+            <div className="brand-left" style={{ fontWeight: 800, fontSize: 18, color: "#0f172a", marginRight: 8 }}>
+              CalmFlow
+            </div>
+          </Link>
 
           <div className="desktop-controls" style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <DropdownButton label="Themes" options={THEME_OPTIONS} current={theme} onChange={(v) => onThemeChange(v)} />

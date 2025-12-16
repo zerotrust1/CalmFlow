@@ -1,0 +1,379 @@
+.pomodoro-container {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background-image 0.5s ease-in-out;
+}
+
+.timer {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.1)); /* Transparent gradient */
+  backdrop-filter: blur(10px); /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(10px); /* For Safari */
+  padding: 4rem 7rem; /* Increased padding for rectangular shape */
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Softer shadow */
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+}
+
+.session-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.session-tab {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.9); /* Slightly whiter text */
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1.1rem; /* Increased font size */
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle outline */
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.session-tab.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.8); /* More visible border for active state */
+}
+
+.session-tab:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.6); /* Slightly more visible border on hover */
+}
+
+.time {
+  font-family: 'Arvo', serif; /* Bolder, aesthetic font */
+  font-size: 5.5rem; /* Reverted font size */
+  font-weight: 700;
+  color: #f8fafc; /* Reverted lighter text color for contrast */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Reverted subtle text shadow */
+}
+
+.buttons {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.button {
+  background-color: rgba(255, 255, 255, 0.2); /* Transparent button background */
+  color: #ffffff; /* Pure white color for maximum visibility */
+  padding: 0.7rem 2rem;
+  border-radius: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 700; /* Bolder font weight */
+  border: 1px solid rgba(255, 255, 255, 0.4); /* Subtle border */
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px); /* Frosted glass effect for buttons */
+  -webkit-backdrop-filter: blur(5px); /* For Safari */
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Subtle text shadow */
+}
+
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.settings-icon {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  cursor: pointer;
+  font-size: 2rem; /* Use font-size to control icon size */
+  color: #ffffff; /* White color for the icon */
+  display: flex; /* Make it a flex container */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  transform-origin: center; /* Ensure rotation is from the center */
+}
+
+.settings-icon:hover {
+  animation: spin 2s linear infinite; /* Continuous rotation on hover */
+}
+
+@keyframes fadeInScaleUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.settings-panel {
+  position: fixed; /* Changed to fixed for viewport centering */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the panel */
+  background: linear-gradient(135deg, #ffffff, #f0f0f0); /* White gradient */
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  border: 1px solid #ddd;
+  z-index: 10;
+  color: #333; /* Elegant black text */
+  animation: fadeInScaleUp 0.3s ease-out; /* Appearing animation */
+  width: 600px; /* Increased width */
+  max-width: 90vw; /* Ensure it doesn't overflow on small screens */
+}
+
+.settings-content {
+  display: flex;
+  gap: 3rem; /* Increased gap for wider panel */
+}
+
+.settings-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  border-right: 1px solid #ddd;
+  padding-right: 2rem;
+}
+
+.settings-tab {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: 600;
+}
+
+.settings-tab.active {
+  background-color: #eee;
+}
+
+.settings-tab:hover:not(.active) {
+  background-color: #f5f5f5;
+}
+
+.settings-main {
+  flex-grow: 1;
+}
+
+.timer-settings {
+  margin-bottom: 2rem;
+}
+
+.timer-settings p {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.duration-inputs {
+  display: flex;
+  gap: 1rem;
+}
+
+.duration-input {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.duration-input label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.duration-input input {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+}
+
+.music-selector {
+  margin-bottom: 2rem;
+}
+
+.music-selector p {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.music-dropdown {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none; /* Remove default browser styling */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23333'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E"); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.5em 1.5em;
+}
+
+.themes-selector {
+  margin-bottom: 2rem;
+}
+
+.themes-selector p {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.themes-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+}
+
+.theme-option {
+  height: 70px;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background-size: cover;
+  background-position: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.theme-option.active {
+  border-color: #333;
+}
+
+.theme-option:hover {
+  transform: scale(1.05);
+}
+
+.theme-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 0.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.bell-selector {
+  margin-bottom: 2rem;
+}
+
+.bell-selector p {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.bell-dropdown {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  color: #333;
+  font-size: 1rem;
+  cursor: pointer;
+  appearance: none; /* Remove default browser styling */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%23333'%3E%3Cpath fill-rule='evenodd' d='M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z' clip-rule='evenodd'%3E%3C/path%3E%3C/svg%3E"); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 1.5em 1.5em;
+}
+
+@media (max-width: 768px) {
+  .timer {
+    padding: 3rem 4rem;
+  }
+
+  .time {
+    font-size: 4rem;
+  }
+
+  .session-tab {
+    font-size: 1rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .settings-panel {
+    width: 90vw;
+    padding: 1.5rem;
+  }
+
+  .settings-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .settings-sidebar {
+    flex-direction: row;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+    padding-right: 0;
+    padding-bottom: 1rem;
+    overflow-x: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .timer {
+    padding: 2rem;
+  }
+
+  .time {
+    font-size: 3rem;
+  }
+
+  .session-tabs {
+    gap: 0.5rem;
+  }
+
+  .session-tab {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .buttons {
+    margin-top: 1.5rem;
+    gap: 1rem;
+  }
+
+  .button {
+    padding: 0.6rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .settings-icon {
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  .duration-inputs {
+    flex-direction: column;
+  }
+}
