@@ -1,15 +1,12 @@
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { JWT } from "next-auth/jwt";
 
 declare module "next-auth" {
-  interface User {
-    id?: string;
-  }
   interface Session {
-    user: User & {
-      id?: string;
-    };
+    user: {
+      id: string;
+    } & DefaultSession["user"];
   }
 }
 
@@ -35,7 +32,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
-        session.user.id = token.sub || token.jti || "";
+        session.user.id = (token.sub as string) || (token.jti as string) || "";
       }
       return session;
     },
