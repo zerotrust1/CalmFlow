@@ -1,0 +1,477 @@
+/* Styling for breathing UI: circle, label, and phase states */
+
+/* --- Replace any html.theme-* background shorthand with variable-driven background here --- */
+
+/* Provide defaults for vars */
+:root {
+  --app-bg-image: none;
+  --app-bg-size: cover;
+  --theme-bg: #ffffff;
+  --breath-bg: linear-gradient(180deg, rgba(99,102,241,0.12), rgba(99,102,241,0.04));
+  --label-color: #0f172a;
+  --breath-shadow: 0 16px 48px rgba(2,6,23,0.06);
+}
+
+/* Use separate background-image and background-color so image and theme color don't override each other */
+html, body, #__next {
+  height: 100%;
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--theme-bg);
+  background-image: var(--app-bg-image);
+  background-size: var(--app-bg-size);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  transition: background-image 400ms ease, background-color 400ms ease, background-size 400ms ease;
+}
+
+/* On smaller screens disable fixed attachment */
+@media (max-width: 1024px) {
+  html, body, #__next {
+    background-attachment: scroll;
+    background-position: center top;
+  }
+}
+
+/* Ensure app containers are transparent so root background shows through */
+#___next,
+#__next,
+.min-h-screen,
+.breathing-card,
+.breathing-wrapper,
+.breathing-wrap,
+.w-full,
+.max-w-3xl,
+.container,
+.main,
+.card {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Ensure breathing circle uses variables (no change to variable names) */
+.breathing-circle {
+  --size: var(--breath-size, 280px);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--breath-bg);
+  box-shadow: var(--breath-shadow);
+  transition: transform 0.6s ease, box-shadow 0.4s ease, background 0.4s ease;
+  will-change: transform;
+}
+
+/* Text label */
+
+/* Move the breathing circle higher within its container */
+.breathing-wrap {
+  margin-top: -7vh;
+}
+.breath-label {
+  background: rgba(255,255,255,0.88);
+  color: var(--label-color);
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(2,6,23,0.06);
+  transition: transform var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Phase-specific visual states (use data-phase on .breathing-circle) */
+.breathing-circle[data-phase="breathe-in"] {
+  box-shadow: 0 16px 48px rgba(99,102,241,0.08);
+  filter: saturate(1.05);
+}
+.breathing-circle[data-phase="hold"] {
+  box-shadow: 0 12px 36px rgba(0,0,0,0.06);
+  transform: scale(calc((var(--breath-min-scale) + var(--breath-max-scale)) / 2));
+}
+.breathing-circle[data-phase="breathe-out"] {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
+  filter: saturate(0.95) brightness(0.98);
+}
+
+/* Optionally style the label to reflect the phase */
+.breath-label[data-phase="breathe-in"] { background: linear-gradient(180deg, rgba(99,102,241,0.12), rgba(99,102,241,0.06)); color: white; }
+.breath-label[data-phase="breathe-out"] { background: rgba(255,255,255,0.85); color: var(--label-color); }
+.breath-label[data-phase="hold"] { background: rgba(255,255,255,0.9); color: var(--label-color); }
+
+/* Keyframe: gentle scale for inhale/exhale */
+@keyframes breath-scale {
+  from { transform: scale(var(--breath-min-scale)); }
+  to   { transform: scale(var(--breath-max-scale)); }
+}
+
+/* Calm breathe animation */
+.breathing-circle.is-running {
+  animation: calm-breathe 12s ease-in-out infinite;
+}
+
+@keyframes calm-breathe {
+  0%   { transform: scale(0.92); }
+  25%  { transform: scale(1.06); }
+  50%  { transform: scale(1.12); }
+  75%  { transform: scale(1.04); }
+  100% { transform: scale(0.92); }
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .breathing-circle {
+    animation: none !important;
+    transition: transform var(--transition-fast);
+  }
+  .breathing-circle.is-running { animation: none; transform: none; }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  :root { --breath-size: 180px; }
+  .breath-label { font-size: 14px; padding: 6px 10px; }
+}
+
+/* Center the breathing card & circle in the viewport */
+.breathing-card,
+.breathing-wrapper {
+  background: transparent;
+  min-height: 100vh;           /* fill viewport so centering is relative to screen */
+  display: flex;
+  align-items: center;         /* vertical center */
+  justify-content: center;     /* horizontal center */
+  padding: 2rem 1rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* The visual circle — keep it centered inside the card */
+.breathing-circle {
+  position: relative;          /* anchor for .bottom-center button */
+  display: grid;
+  place-items: center;
+  width: 280px;
+  height: 280px;
+  border-radius: 999px;
+  margin: 0 auto;
+  /* subtle background to ensure visibility */
+  background: radial-gradient(circle at center, rgba(99,102,241,0.06), transparent 60%);
+}
+
+/* button anchor: sits at bottom center of the circle */
+.bottom-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 12px;
+  z-index: 20;
+}
+
+/* responsive sizing */
+@media (max-width: 420px) {
+  .breathing-circle {
+    width: 220px;
+    height: 220px;
+  }
+  .bottom-center {
+    bottom: 10px;
+  }
+}
+
+/* Theme gradients: unique gradients for each scene/theme.
+   These set CSS vars used by .breathing-circle and can also be
+   referenced elsewhere if needed. */
+.theme-ocean {
+  --breath-bg: linear-gradient(135deg, #9ADBF9 0%, #05668D 100%);
+  --breath-glow: rgba(5,102,141,0.18);
+  --label-color: #023047;
+  --app-bg: linear-gradient(180deg, #9ADBF9, #05668D);
+}
+
+.theme-forest {
+  --breath-bg: linear-gradient(135deg, #A8E6CF 0%, #3B7A57 100%);
+  --breath-glow: rgba(59,122,87,0.16);
+  --label-color: #1B5E20;
+  --app-bg: linear-gradient(180deg, #A8E6CF, #3B7A57);
+}
+
+.theme-night {
+  --breath-bg: linear-gradient(135deg, #1A1B41 0%, #3C1874 100%);
+  --breath-glow: rgba(60,24,116,0.16);
+  --label-color: #e6e7ff;
+  --app-bg: linear-gradient(180deg, #1A1B41, #3C1874);
+}
+
+/* Ensure the breathing circle uses the theme variable */
+.breathing-circle {
+  background: var(--breath-bg);
+  box-shadow: 0 8px 30px var(--breath-glow);
+  color: var(--label-color);
+}
+
+/* If you need a body fallback for themes, you can use .theme-xxx on a root container */
+.theme-ocean body,
+.theme-forest body,
+.theme-night body {
+  /* kept intentionally blank — body background is controlled in pages/index via JS */
+}
+
+/* Apply app background when theme class is present on the root element (html).
+   This uses the --app-bg var already defined in each .theme-xxx rule. */
+html.theme-ocean,
+html.theme-forest,
+html.theme-night {
+  background: var(--app-bg);
+  background-attachment: fixed;
+  transition: background 700ms ease;
+}
+
+/* ensure full-height and allow root theme background to show */
+html, body, #__next {
+  height: 100%;
+  background: transparent;
+}
+
+/* theme background already set on html.theme-*; keep it */
+html.theme-ocean,
+html.theme-forest,
+html.theme-night {
+  background: var(--app-bg);
+  background-attachment: fixed;
+  transition: background 700ms ease;
+}
+
+/* Remove opaque backgrounds from common app containers so gradient shows through.
+   Use !important to override utility classes (Tailwind) if necessary. */
+#___next,
+#__next,
+.min-h-screen,
+.breathing-card,
+.breathing-wrapper,
+.breathing-wrap,
+.w-full,
+.max-w-3xl,
+.container,
+.main,
+.card {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* small fix: constrain oversized checkmarks from selector UI */
+.scene-selector .option::after,
+.scene-selector .option .check,
+.scene-btn::after,
+button[data-selected="true"]::after,
+input[type="radio"] + label::after,
+input[type="checkbox"] + label::after,
+.label-check::after {
+  content: "✓";
+  font-size: 1rem !important;
+  line-height: 1 !important;
+  width: auto !important;
+  height: auto !important;
+  position: absolute !important;
+  top: 8px !important;
+  right: 8px !important;
+  transform: none !important;
+  display: inline-block !important;
+  pointer-events: none !important;
+}
+
+/* ---------- Removed generic checkmark override that injected a large ✓ ---------- */
+/* (previous quick-fix block removed) */
+
+/* Limit check icon size inside the scene selector only */
+.scene-selector svg {
+  width: 1rem !important;
+  height: 1rem !important;
+  transform: none !important;
+}
+
+/* Ensure the check wrapper doesn't expand and aligns center */
+.scene-selector .absolute.inset-y-0.right-3.flex.items-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* if the checkmark is coming from an input control, neutralize default appearance */
+input[type="checkbox"],
+input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Scene selector: place check on the right and add text glow on hover */
+.scene-selector .listbox-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 9999px;
+  transition: background-color 150ms ease;
+}
+
+.scene-selector .listbox-option .option-text {
+  transition: color 150ms ease, text-shadow 180ms ease;
+}
+
+/* Glow on hover of the theme text */
+.scene-selector .listbox-option:hover .option-text,
+.scene-selector .listbox-option:focus .option-text,
+.scene-selector .listbox-option[aria-selected="true"] .option-text {
+  color: #fff !important;
+  /* subtle colored glow — uses semi-transparent white for light themes */
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.9), 0 0 18px rgba(255, 255, 255, 0.12);
+  transform: translateZ(0);
+}
+
+/* Check icon sizing / alignment */
+.scene-selector .check-wrapper {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Keep dropdown background slightly translucent but not opaque so app bg shows */
+.scene-selector .headlessui-listbox__options,
+.scene-selector .listbox-options {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(6px);
+}
+
+/* Scene selector primary button styling:
+   elegant white rounded button with subtle lift and blue glow on hover/focus */
+.scene-selector .selector-button {
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 9999px;
+  padding: 0.5rem 0.9rem;
+  box-shadow: 0 6px 18px rgba(8, 15, 30, 0.06);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: box-shadow 200ms ease, transform 160ms ease, background 200ms ease;
+}
+
+/* Hover: gentle upward lift + blue glow */
+.scene-selector .selector-button:hover {
+  box-shadow:
+    0 18px 40px rgba(3, 169, 244, 0.10), /* soft blue glow */
+    0 6px 22px rgba(8, 15, 30, 0.10);
+  background: rgba(253, 255, 255, 0.98);
+}
+
+/* Focus-visible: accessible outline with subtle blue ring */
+.scene-selector .selector-button:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(3, 169, 244, 0.08),
+    0 10px 30px rgba(3, 169, 244, 0.08),
+    0 6px 22px rgba(8, 15, 30, 0.08);
+  border-color: rgba(3, 169, 244, 0.28);
+}
+
+/* Keep icon sizes consistent */
+.scene-selector .selector-button svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Rounded-square control buttons used by BreathingCircle */
+.control-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 84px;
+  height: 44px;
+  padding: 0 14px;
+  background: #ffffff;
+  color: #0f172a;
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+  pointer-events: auto;
+  z-index: 5;
+}
+
+.control-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2,6,23,0.08);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+.control-btn[aria-pressed="true"] {
+  background: linear-gradient(180deg, rgba(99,102,241,0.12), rgba(99,102,241,0.06));
+  border-color: rgba(99,102,241,0.28);
+  color: #071133;
+}
+
+/* Selector buttons (navbar dropdown triggers) */
+.selector-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  height: 40px;
+  background: rgba(255,255,255,0.98);
+  border: 1px solid rgba(15,23,42,0.06);
+  border-radius: 10px;
+  color: #0f172a;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(2,6,23,0.04);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.selector-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(2,6,23,0.06);
+}
+
+/* Dropdown panel background (translucent white) */
+.listbox-options {
+  background: rgba(255,255,255,0.92);
+  border-radius: 8px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 10px 30px rgba(11,18,32,0.08);
+  overflow: hidden;
+  padding: 6px;
+}
+
+/* list option */
+.listbox-option {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  width: 100%;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.listbox-option:hover {
+  background: rgba(2,6,23,0.03);
+}
